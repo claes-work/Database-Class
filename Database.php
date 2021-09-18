@@ -36,4 +36,9 @@ class Database {
         $this->connection->set_charset($charset);
     }
 
+
+    public function query($query) {
+
+    }
+
 }
