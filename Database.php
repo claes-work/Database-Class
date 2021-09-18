@@ -7,9 +7,9 @@ class Database {
      */
     protected $connection;
     protected $query;
-    protected $show_errors  = TRUE;
-    protected $query_closed = TRUE;
-    public    $query_count  = 0;
+    protected $showErrors  = TRUE;
+    protected $queryClosed = TRUE;
+    public    $queryCount  = 0;
 
 
     /**
@@ -38,6 +38,9 @@ class Database {
 
 
     public function query($query) {
+
+        // close the query connection if the queryClosed flag is FALSE
+        (!$this->queryClosed) ?: $this->query->close();
 
     }
 
