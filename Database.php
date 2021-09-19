@@ -118,6 +118,18 @@ class Database {
 
 
     /**
+     * Show the occurring error
+     *
+     * @param $error
+     */
+    public function error($error) {
+
+        // exit the function and output the specific error message if there is an error
+        if ($this->showErrors) exit($error);
+    }
+
+
+    /**
      * Get the type of a specific variable
      *
      * @param $var
