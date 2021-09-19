@@ -118,13 +118,21 @@ class Database {
 
 
     /**
-     * Show the occurring error
+     * Get the last inserted id
+     *
+     * @return int|string
+     */
+    public function lastInsertID() {
+        return $this->connection->insert_id;
+    }
+
+
+    /**
+     * Exit the function and output the specific error message if there is an error
      *
      * @param $error
      */
     public function error($error) {
-
-        // exit the function and output the specific error message if there is an error
         if ($this->showErrors) exit($error);
     }
 
