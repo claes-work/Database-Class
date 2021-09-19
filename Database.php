@@ -118,6 +118,16 @@ class Database {
 
 
     /**
+     * Get all affected rows
+     *
+     * @return mixed
+     */
+    public function affectedRows() {
+        return $this->query->affected_rows;
+    }
+
+
+    /**
      * Get the last inserted id
      *
      * @return int|string
