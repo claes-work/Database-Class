@@ -33,7 +33,7 @@ class Database {
         $this->connection = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
         // check if there is a connection error
-        ($this->connection->connect_error) ?: $this->error('Failed to connect to MySQL - ' . $this->connection->connect_error);
+        if ($this->connection->connect_error) $this->error('Failed to connect to MySQL - ' . $this->connection->connect_error);
 
         // set the msqli charset
         $this->connection->set_charset($charset);
@@ -49,7 +49,7 @@ class Database {
     public function query($query) {
 
         // close the query connection if the $queryClosed flag is false
-        (!$this->queryClosed) ?: $this->query->close();
+        if (!$this->queryClosed) $this->query->close();
 
         // if the sql statement is getting prepared for execution
         if ($this->query = $this->connection->prepare($query)) {
@@ -98,21 +98,40 @@ class Database {
             // execute the query
             $this->query->execute();
 
-            // if the query result is an error pint it
-            ($this->query->errno) ?: $this->error('Unable to process MySQL query (check your params) - ' . $this->query->error);
+            // if the query result is an error print it
+            if ($this->query->errno) $this->error('Unable to process MySQL query (check your params) - ' . $this->query->error);
 
-            // set the $queryClosed flag to false to close the connection
+            // close the connection by setting the $queryClosed flag to false
             $this->queryClosed = false;
 
             // increment the $queryCount
             $this->queryCount++;
         } else {
 
-            // print error if the sql statement can't be prepared
+            // print the error message if the sql statement can't be prepared
             $this->error('Unable to prepare MySQL statement (check your syntax) - ' . $this->connection->error);
         }
 
         //return the query results or the specific error message
         return $this;
+    }
+
+
+    /**
+     * Get the type of a specific variable
+     *
+     * @param $var
+     *
+     * @return string
+     */
+    private function _gettype($var) {
+
+        // return a character based on the data type of a variable
+        if (is_string($var)) return 's';
+        if (is_float($var))  return 'd';
+        if (is_int($var))    return 'i';
+
+        // return 'b' if the variable isn't a string, float or integer
+        return 'b';
     }
 }
