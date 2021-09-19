@@ -118,6 +118,17 @@ class Database {
 
 
     /**
+     * Get the number of rows from a query result
+     *
+     * @return mixed
+     */
+    public function numRows() {
+        $this->query->store_result();
+        return $this->query->num_rows;
+    }
+
+
+    /**
      * Get all affected rows
      *
      * @return mixed
