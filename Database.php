@@ -118,6 +118,16 @@ class Database {
 
 
     /**
+     * Close the existing connection
+     *
+     * @return bool
+     */
+    public function close() {
+        return $this->connection->close();
+    }
+
+
+    /**
      * Get the number of rows from a query result
      *
      * @return mixed
@@ -172,7 +182,7 @@ class Database {
         if (is_float($var))  return 'd';
         if (is_int($var))    return 'i';
 
-        // return 'b' if the variable isn't a string, float or integer
+        // return 'b' if the variable is neither a string, float or integer
         return 'b';
     }
 }
