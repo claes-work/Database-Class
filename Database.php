@@ -28,7 +28,6 @@ class Database {
         $dbName = '',
         $charset = 'utf8'
     ) {
-
         // create new database object
         $this->connection = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
 
@@ -48,13 +47,11 @@ class Database {
      */
     public function query($query) {
 
-        // close the query connection if the $queryClosed flag is false
+        // close the query connection if the value of the $queryClosed flag is false
         if (!$this->queryClosed) $this->query->close();
 
-        // if the sql statement is getting prepared for execution
+        // if the sql statement is getting prepared for execution and the number of passed arguments is greater than 1
         if ($this->query = $this->connection->prepare($query)) {
-
-            // if the number of passed arguments is greater than one
             if (func_num_args() > 1) {
 
                 // all argument variables
@@ -62,28 +59,21 @@ class Database {
                 $allArguments = array_slice($functionArgs, 1);
                 $types = '';
                 $argumentsRef = [];
-
-                // for each argument
+                
                 foreach ($allArguments as $index => &$argument) {
 
-                    // check if the argument is an array
+                    // check if $argument is an array
                     if (is_array($allArguments[$index])) {
 
-                        //if so add each of its value types to the types string
-                        foreach ($allArguments[$index] as $argIndex => &$functionArgumentArray) {
-
-                            // add the type to the types sting
+                        // if so add each of its value types to the types string and push the $argumentArray to the argumentRef array
+                        foreach ($allArguments[$index] as $argIndex => &$argumentArray) {
                             $types .= $this->_gettype($allArguments[$index][$argIndex]);
-
-                            // push the specific array to the argumentRef array
-                            $argumentsRef[] = &$functionArgumentArray;
+                            $argumentsRef[] = &$argumentArray;
                         }
                     } else {
 
-                        // add the type to the types sting
+                        // otherwise, add the single value type and push the argument to the argumentRef array
                         $types .= $this->_gettype($allArguments[$index]);
-
-                        // push the array to the argumentRef array
                         $argumentsRef[] = &$argument;
                     }
 
@@ -98,7 +88,7 @@ class Database {
             // execute the query
             $this->query->execute();
 
-            // if the query result is an error print it
+            // if the query throws an error print it
             if ($this->query->errno) $this->error('Unable to process MySQL query (check your params) - ' . $this->query->error);
 
             // close the connection by setting the $queryClosed flag to false
