@@ -7,9 +7,9 @@ class Database {
      */
     protected $connection;
     protected $query;
-    protected $showErrors = true;
+    protected $showErrors  = true;
     protected $queryClosed = true;
-    public $queryCount = 0;
+    public    $queryCount  = 0;
 
 
     /**
@@ -22,10 +22,10 @@ class Database {
      * @param string $charset
      */
     public function __construct(
-        $dbHost = 'localhost',
-        $dbUser = 'root',
-        $dbPass = '',
-        $dbName = '',
+        $dbHost  = 'localhost',
+        $dbUser  = 'root',
+        $dbPass  = '',
+        $dbName  = '',
         $charset = 'utf8'
     ) {
         // create new database object
@@ -57,7 +57,7 @@ class Database {
                 // all argument variables
                 $functionArgs = func_get_args();
                 $allArguments = array_slice($functionArgs, 1);
-                $types = '';
+                $types        = '';
                 $argumentsRef = [];
                 
                 foreach ($allArguments as $index => &$argument) {
@@ -106,9 +106,68 @@ class Database {
         return $this;
     }
 
+    /**
+     * Fetch multiple records from a database
+     *
+     * @param null $callback
+     *
+     * @return array
+     */
+    public function fetchAll($callback = null) {
+
+        // declare array variables
+        $params  = [];
+        $row     = [];
+        $results = [];
+
+        // get the metadata of the query
+        $meta = $this->query->result_metadata();
+
+        // push the values to the $params array while there are columns in a table's row
+        while ($field = $meta->fetch_field()) {
+            $params[] = &$row[$field->name];
+        }
+
+        // bind the values of the $params array
+        call_user_func_array(array($this->query, 'bind_result'), $params);
+
+        // there aare entries to fetch
+        while ($this->query->fetch()) {
+
+            // associative array of all rows that are getting fetched
+            $allRows = [];
+
+            // push each row with its key to the $allRows array
+            foreach ($row as $key => $val) {
+                $allRows[$key] = $val;
+            }
+
+            // if there is a callback specified and the callback is callable
+            if ($callback != null && is_callable($callback)) {
+
+                // call the specified callback of
+                $value = call_user_func($callback, $allRows);
+                if ($value == 'break') break;
+            } else {
+
+                // push the $allRows array to the $results array
+                $results[] = $allRows;
+            }
+        }
+
+        // close the existing connection
+        $this->query->close();
+
+        // set the $queryClosed flag to true
+        $this->queryClosed = TRUE;
+
+        // return the query results
+        return $results;
+    }
+
 
     /**
-     * Fetch a single row from the table
+     * Fetch a record from a database
      *
      * @return array
      */
@@ -143,7 +202,7 @@ class Database {
         // set the $queryClosed flag to true
         $this->queryClosed = TRUE;
 
-        // return the query results
+        // return the query result
         return $result;
     }
 
