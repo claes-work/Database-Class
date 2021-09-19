@@ -91,7 +91,7 @@ class Database {
             // if the query throws an error print it
             if ($this->query->errno) $this->error('Unable to process MySQL query (check your params) - ' . $this->query->error);
 
-            // close the connection by setting the $queryClosed flag to false
+            // set the $queryClosed flag to false
             $this->queryClosed = false;
 
             // increment the $queryCount
@@ -102,8 +102,49 @@ class Database {
             $this->error('Unable to prepare MySQL statement (check your syntax) - ' . $this->connection->error);
         }
 
-        //return the query results or the specific error message
+        // return the query results or the specific error message
         return $this;
+    }
+
+
+    /**
+     * Fetch a single row from the table
+     *
+     * @return array
+     */
+    public function fetchArray() {
+
+        // declare array variables
+        $params = [];
+        $row    = [];
+        $result = [];
+
+        // get the metadata of the query
+        $meta = $this->query->result_metadata();
+
+        // push the values to the $params array while there are columns in a table's row
+        while ($field = $meta->fetch_field()) {
+            $params[] = &$row[$field->name];
+        }
+
+        // bind the values of the $params array
+        call_user_func_array([$this->query, 'bind_result'], $params);
+
+        // while there are entries to fetch push each of it with its key to the $result array
+        while ($this->query->fetch()) {
+            foreach ($row as $key => $val) {
+                $result[$key] = $val;
+            }
+        }
+
+        // close the existing connection
+        $this->query->close();
+
+        // set the $queryClosed flag to true
+        $this->queryClosed = TRUE;
+
+        // return the query results
+        return $result;
     }
 
 
