@@ -131,7 +131,7 @@ class Database {
         // bind the values of the $params array
         call_user_func_array(array($this->query, 'bind_result'), $params);
 
-        // there aare entries to fetch
+        // while there are entries to fetch
         while ($this->query->fetch()) {
 
             // associative array of all rows that are getting fetched
