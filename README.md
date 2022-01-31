@@ -16,7 +16,7 @@ $dbUser = 'root';
 $dbPass = '';
 $dbName = 'example';
 
-$db = new db($dbhost, $dbuser, $dbpass, $dbname);
+$db = new Database($dbhost, $dbuser, $dbpass, $dbname);
 ```
 
 ### Fetch a single record from a database:
