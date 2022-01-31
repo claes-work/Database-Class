@@ -45,7 +45,7 @@ $db->query('SELECT * FROM $cars')->fetchAll(function($car) {
 ```
 ### Get the number of rows:
 ```php
-$accounts = $db->query('SELECT * FROM cars');
+$cars = $db->query('SELECT * FROM cars');
 echo $cars->numRows();
 ```
 ### Get the affected number of rows:
