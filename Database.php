@@ -267,12 +267,12 @@ class Database {
      */
     private function _gettype($var) {
 
-        // return a character based on the data type of a variable
+        // return a character based on the datatype of a variable
         if (is_string($var)) return 's';
         if (is_float($var))  return 'd';
         if (is_int($var))    return 'i';
 
-        // return 'b' if the variable is neither a string, float or integer
+        // return 'b' if the variable is neither a string, float nor integer
         return 'b';
     }
 }
