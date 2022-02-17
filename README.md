@@ -61,7 +61,7 @@ echo $db->query_count;
 ```php
 echo $db->lastInsertID();
 ```
-### Close the database:
+### Close the database connection:
 ```php
 $db->close();
 ```
