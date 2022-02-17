@@ -89,7 +89,6 @@ class Database {
             // if the query throws an error print it
             if ($this->query->errno) $this->error('Unable to process MySQL query (check your params) - ' . $this->query->error);
 
-            // set the $queryClosed flag to false
             $this->queryClosed = false;
             $this->queryCount++;
         } else {
