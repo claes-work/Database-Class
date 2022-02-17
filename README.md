@@ -1,6 +1,6 @@
 # PHP-Database-Class
 
-A lightweight an easy to use PHP database class that automatically uses prepared statements to secure your queries from SQL injection attacks.
+A lightweight an easy-to-use PHP database class that automatically uses prepared statements to secure your queries from SQL injection attacks.
 
 ## ⚙️ How it works
 
