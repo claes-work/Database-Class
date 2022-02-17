@@ -33,8 +33,7 @@ class Database {
 
         // check if there is a connection error
         if ($this->connection->connect_error) $this->error('Failed to connect to MySQL - ' . $this->connection->connect_error);
-
-        // set the mysqli charset
+        
         $this->connection->set_charset($charset);
     }
 
