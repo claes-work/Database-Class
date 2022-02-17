@@ -91,8 +91,6 @@ class Database {
 
             // set the $queryClosed flag to false
             $this->queryClosed = false;
-
-            // increment the $queryCount
             $this->queryCount++;
         } else {
 
