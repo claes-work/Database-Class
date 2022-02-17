@@ -37,7 +37,7 @@ foreach ($cars as $car) {
    echo $car['name'] . '<br>';
 }
 ```
-If you're using large amounts of data you might want to specify a callback so that the results won't be stored in an array.
+If you're using large amounts of data, you might want to specify a callback so that the results won't be stored in an array.
 ```php
 $db->query('SELECT * FROM $cars')->fetchAll(function($car) {
   echo $car['name'];
