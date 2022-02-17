@@ -84,8 +84,7 @@ class Database {
                     call_user_func_array([$this->query, 'bind_param'], $argumentsRef);
                 }
             }
-
-            // execute the query
+            
             $this->query->execute();
 
             // if the query throws an error print it
