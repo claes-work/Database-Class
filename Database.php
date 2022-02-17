@@ -201,7 +201,6 @@ class Database {
         // set the $queryClosed flag to true
         $this->queryClosed = TRUE;
 
-        // return the query result
         return $result;
     }
 
